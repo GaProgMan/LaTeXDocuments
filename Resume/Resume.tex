@@ -1,0 +1,288 @@
+%%% LaTeX Template: Curriculum Vitae
+%%%
+%%% Source: http://www.howtotex.com/
+%%% Feel free to distribute this template, but please keep the referal to HowToTeX.com.
+%%% Date: July 2011
+
+%%% Edited by Jamie Taylor (http://gaprogman.com)
+%%% Added a definition for a "hobbies" section
+%%% Added pdfinfo call to add metadata to outputted PDF
+%%% Date September 2012
+
+%%% ------------------------------------------------------------
+%%% BEGIN PREAMBLE
+%%% ------------------------------------------------------------
+\documentclass[paper=a4,fontsize=10pt]{scrartcl}	 		% KOMA-article class
+							
+%\usepackage[english]{babel}						% English language/hyphenation
+%\usepackage[protrusion=true,expansion=true]{microtype}	% Better typography
+\usepackage{amsmath,amsfonts,amsthm}				% Math packages
+\usepackage[pdftex]{graphicx}						% Enable pdflatex
+\usepackage[svgnames]{xcolor}						% Colors by their 'svgnames'
+\usepackage[margin=0.5in]{geometry}
+	\textheight=700px							% Saving trees ;-) 
+\usepackage{url}								% Clickable URL's
+\usepackage{wrapfig}							% Wrap text along figures
+
+\frenchspacing								% Better looking spacings after periods
+\pagestyle{empty}								% No pagenumbers/headers/footers
+%\usepackage{bbding}							% Symbols
+
+%%% pdfstartview=Fitforces the outputted pdf to open in a "fit
+%%% to windows" zoom level.
+%%% hidelinks tells pdflatex to NOT draw borders around any and
+%%% all links in the compiled document
+\usepackage[pdfstartview=Fit, hidelinks]{hyperref}
+
+\hypersetup{pdfinfo={
+Title={Resume.pdf},
+Author={Jamie Taylor},
+Creator={LaTeX},
+Producer={TeX Maker 3.5},
+Subject={Curriculum Vitae}
+}}
+  
+%%% Custom sectioning (sectsty package)
+%%% ------------------------------------------------------------
+\usepackage{sectsty}							% Custom sectioning (see below)
+
+\sectionfont{%								% Change font of \section command
+	\usefont{OT1}{phv}{b}{n}%					% bch-b-n: CharterBT-Bold font
+	\sectionrule{0pt}{0pt}{-5pt}{3pt}
+	}
+
+%%% Macros
+%%% ------------------------------------------------------------
+\newlength{\spacebox}
+\settowidth{\spacebox}{8888888888}					% Box to align text
+\newcommand{\sepspace}{\vspace*{1em}}				% Vertical space macro
+
+\newcommand{\MyName}[1]{
+		\Large \usefont{OT1}{phv}{b}{n} \hfill #1 		% Name
+		\par \normalsize \normalfont}
+		
+\newcommand{\MySlogan}[1]{
+%		\large
+		\usefont{OT1}{phv}{m}{n}\hfill \textit{#1}		% Slogan (optional)
+		\par \normalsize \normalfont}
+
+\newcommand{\NewPart}[1]{\section*{\uppercase{#1}}}
+
+\newcommand{\PersonalEntry}[2]{
+		\noindent\hangindent=2em\hangafter=0 		% Indentation
+		\parbox{\spacebox}{					% Box to align text
+		\textit{#1}}							% Entry name (birth, address, etc.)
+		\hspace{1.5em} #2 \par}					% Entry value
+
+\newcommand{\SkillsEntry}[2]{						% Same as \PersonalEntry
+		\noindent\hangindent=2em\hangafter=0 		% Indentation
+		\parbox{\spacebox}{					% Box to align text
+		{#1}}								% Entry name (birth, address, etc.)
+		\hspace{1.5em} #2 \par}					% Entry value	
+		
+\newcommand{\EducationEntry}[5]{
+		\noindent \textbf{#1} \hfill				% Study
+		#2 \par							% Duration
+		\noindent #3 						% school
+		\hfill #4 \par							% School
+		\noindent\hangindent=2em\hangafter=0 \small #5 	% Description
+		\normalsize \par}
+		
+\newcommand{\EducationEntryNoDetail}[4]{
+		\noindent \textbf{#1} \hfill				% Study
+		#2 \par							% Duration
+		\noindent #3 						% school
+		\hfill #4 \par							% School
+		\noindent\hangindent=2em\hangafter=0 \small
+		\normalsize \par}
+
+
+\newcommand{\ExperienceEntry}[4]{					% Same as \EducationEntry
+		\noindent \textbf{#1} \hfill 				% Jobname
+		%\colorbox{Black}{\color{White}
+		#2 \par							% Duration
+		\noindent #3 \par						% Company
+		\noindent\hangindent=2em\hangafter=0 \small #4 	% Description
+		\normalsize \par}
+		
+\newcommand{\ExperienceEntryNoCompanyName}[3]{		% Same as \EducationEntry
+		\noindent \textbf{#1} \hfill 				% Jobname
+		#2 \par							% Duration
+		\noindent\hangindent=2em\hangafter=0 \small #3 	% Description
+		\normalsize \par}
+		
+\newcommand{\GitHubLink}[2]{						% Used to display a textual description of a GitHub link
+		\noindent #1 \hfill 						% Description or name
+		\textit{\href{#2}{#2}} \par				% Link
+		\normalsize \par}		
+		
+\newcommand{\OnlineEntry}[3]{						% Similar to Hobby entry
+		\noindent \textbf{#1} \hfill 				% Service/site name
+		\noindent \textit{\href{#2}{#2}} \par			% URL
+		\noindent \hangindent=2em \hangafter=0 \small #3	%Description
+		\normalsize \par}
+
+\newcommand{\ProjectDetails}[3]{ 				 	% Used for project information
+		\textbf{#1} \hfill 						% Name of Project
+		#2 \par							% Languages, Tool, etc. used
+		\noindent\hangindent=2em\hangafter=0 \small #3 	% Description
+		\normalsize \par}
+
+%%% ------------------------------------------------------------
+%%% HobbyEntry COMMAND
+%%% ------------------------------------------------------------
+%%% Custom command added by Jamie Taylor
+%%% Used to add detail to the hobby section so that it takes 
+%%% a similar format to the other sections - in an effort to
+%%% maintain the style of the overall document.
+%%% Useage:		\HobbyEntry{type of hobby}{description of hobby}
+%%% Example:	\HobbyEntry{Cooking}{Cake is nice; I like baking}
+
+%\newcommand{\HobbyEntry}[2]{					%hobbies Section
+%		\noindent \textbf{#1} \hfill \par				%hobby classification
+%		\noindent\hangindent=2em\hangafter=0 \small #2 	% Description
+%		\normalsize \par}
+
+
+%%% ------------------------------------------------------------
+%%% BEGIN DOCUMENT
+%%% ------------------------------------------------------------
+\begin{document}
+
+\MyName{Name}
+\MySlogan{Contact Number}
+\MySlogan{\href{mailto:email@email.com}{email@email.com}}
+\MySlogan{Full Address Here}
+
+%%% Work experience
+%%% ------------------------------------------------------------
+\NewPart{Experience}
+{
+	\ExperienceEntry{Job Title}{Date from - Date to}{Company Name}{
+
+	\begin{itemize}
+		\item{Very short}
+		\item{List of projects}
+		\item{Undertaken at}
+		\item{Company}
+	\end{itemize}
+	\sepspace
+
+		\ProjectDetails{Short Description - Name of Project}{\textsc{Tools}, \textsc{And}, \textsc{Languages}, \textsc{Used}}
+		{
+			Description of the project, how you fit into it, which tools were used and where and how the project changed as you worked on it.
+			\\ Maximum of two very short paragraphs of text.
+		}
+		\sepspace
+		\ProjectDetails{Short Description - Name of Project}{\textsc{Tools}, \textsc{And}, \textsc{Languages}, \textsc{Used}}
+		{
+			Description of the project, how you fit into it, which tools were used and where and how the project changed as you worked on it.
+			\\ Maximum of two very short paragraphs of text.
+		}
+		\sepspace
+		\ProjectDetails{Short Description - Name of Project}{\textsc{Tools}, \textsc{And}, \textsc{Languages}, \textsc{Used}}
+		{
+			Description of the project, how you fit into it, which tools were used and where and how the project changed as you worked on it.
+			\\ Maximum of two very short paragraphs of text.
+		}
+		\sepspace
+		\ProjectDetails{Short Description - Name of Project}{\textsc{Tools}, \textsc{And}, \textsc{Languages}, \textsc{Used}}
+		{
+			Description of the project, how you fit into it, which tools were used and where and how the project changed as you worked on it.
+			\\ Maximum of two very short paragraphs of text.
+		}
+		\sepspace
+		\ProjectDetails{Short Description - Name of Project}{\textsc{Tools}, \textsc{And}, \textsc{Languages}, \textsc{Used}}
+		{
+			Description of the project, how you fit into it, which tools were used and where and how the project changed as you worked on it.
+			\\ Maximum of two very short paragraphs of text.
+		}
+		\sepspace
+		
+		\par Paragraph on development team techniques used for projects (Agile, etc.). If none were used, describe the typical development life cycle.
+
+%%% Skills
+%%% ------------------------------------------------------------
+\NewPart{Key Skills}
+{
+	\SkillsEntry{Programming Languages}{\textsc{List of}, \textsc{languages you}/\textsc{are familiar}, \textsc{woth. Ranging}, \LaTeX, \textsc{from most familiar}, \textsc{and pften used}, \textsc{to least}}
+	\sepspace
+	\SkillsEntry{Operating Systems}{Same as Programming Languages}
+}
+
+%%% Education
+%%% ------------------------------------------------------------
+\NewPart{Education}
+{ 
+	\EducationEntry{Course Title}{Date from - Date to}{Institution of study}{}
+	{
+		% Optional description of course.
+	}
+	
+	% Use as many as are relevant
+}
+
+\NewPart{Online Presence}
+{
+	\OnlineEntry{Website}{link here}
+	{
+		Brief description of what can be found at the link
+	}
+	\sepspace
+
+	\OnlineEntry{Github}{link here}
+	{
+		It is often useful to give interviewers a chance to check out some open source code that you may have written. Give a brief description of some of your best code here (this may be asked about at interview)
+	}
+	\sepspace
+
+	\OnlineEntry{Stack Exchange}{link}
+	{
+		Being part of a community, extending your skill set and answering questions on techniques and languages can be very helpful to an interviewer in getting to know you on a technical level. Intice them to check out your community presence here.
+	}
+	\sepspace
+
+	\OnlineEntry{LinkedIn}{link}
+	{
+		If you have it, link it. This can show your business connections and your previous employment. Which will make attaining references easier.
+	}
+}
+
+
+%%% GitHub
+%%% ------------------------------------------------------------
+\NewPart{Selection of GitHub Projects}
+{
+	% This is a chance to expand on thescant details provided in the section above
+	
+	\OnlineEntry{Name of project}{Link here}
+	{
+		Which languages did you use? How did you go about producing this code? Was it collaborative? Was it entirely in your own time? Did you have a specific goal in mind (was it produced for a friend/family member or was it just an experiment?)?
+	}
+	\sepspace
+	\OnlineEntry{Name of project}{Link here}
+	{
+		Which languages did you use? How did you go about producing this code? Was it collaborative? Was it entirely in your own time? Did you have a specific goal in mind (was it produced for a friend/family member or was it just an experiment?)?
+	}
+	\sepspace
+	\OnlineEntry{Name of project}{Link here}
+	{
+		Which languages did you use? How did you go about producing this code? Was it collaborative? Was it entirely in your own time? Did you have a specific goal in mind (was it produced for a friend/family member or was it just an experiment?)?
+	}
+	\sepspace
+	\OnlineEntry{Name of project}{Link here}
+	{
+		Which languages did you use? How did you go about producing this code? Was it collaborative? Was it entirely in your own time? Did you have a specific goal in mind (was it produced for a friend/family member or was it just an experiment?)?
+	}
+	\sepspace
+	\OnlineEntry{Name of project}{Link here}
+	{
+		Which languages did you use? How did you go about producing this code? Was it collaborative? Was it entirely in your own time? Did you have a specific goal in mind (was it produced for a friend/family member or was it just an experiment?)?
+	}
+	\sepspace
+}
+
+%%% ------------------------------------------------------------
+%%% END DOCUMENT
+%%% ------------------------------------------------------------
+\end{document}
