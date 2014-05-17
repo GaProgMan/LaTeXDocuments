@@ -1,0 +1,78 @@
+%%% LaTeX Template: Covering Letter
+%%%
+%%% Source: http://www.matthewjmiller.net/howtos/customized-cover-letter-scripts/
+%%% Date: Dec 31 2006
+
+%%% Edited by Jamie Taylor (http://gaprogman.com)
+%%% Date April 2013
+
+%%% ------------------------------------------------------------
+%%% BEGIN PREAMBLE
+%%% ------------------------------------------------------------
+\documentclass[10pt,stdletter,dateno]{newlfm}
+\usepackage{kpfonts}
+
+\usepackage[english]{babel}								% English language/hyphenation
+\usepackage[protrusion=true,expansion=true]{microtype}	% Better typography
+
+%%% pdfstartview=Fitforces the outputted pdf to open in a "fit
+%%% to windows" zoom level.
+%%% hidelinks tells pdflatex to NOT draw borders around any and
+%%% all links in the compiled document
+\usepackage[pdfstartview=Fit, hidelinks]{hyperref}
+
+%%% Add metadata to the outputted PDF
+\hypersetup{pdfinfo={
+Title={Resignation.pdf},
+Author={Jamie Taylor},
+Creator={LaTeX},
+Producer={TeX Maker 3.5},
+Subject={Resignation Letter}
+}}
+
+\widowpenalty=1000
+\clubpenalty=1000
+
+
+%%% ------------------------------------------------------------
+%%% LETER MACROS
+%%% ------------------------------------------------------------
+\newlfmP{headermarginskip=10pt}
+\newlfmP{sigsize=20pt}
+\newlfmP{dateskipafter=10pt}
+%\newlfmP{addrfromphone}
+%\newlfmP{addrfromemail}
+%\PhrPhone{Phone}
+%\PhrEmail{Email}
+
+\namefrom{Jamie Taylor}
+\addrfrom{%
+	\today\\[10pt] \\ \\ \\
+%    Address Line 1\\
+%    Address Line 2\\
+%    City, Post Code
+}
+%\phonefrom{Phone Number}
+%\emailfrom{email@email.com}
+
+\greetto{Andy Farrall,}
+\closeline{Sincerely,}
+
+%%% ------------------------------------------------------------
+%%% BEGIN DOCUMENT
+%%% ------------------------------------------------------------
+\begin{document}
+\begin{newlfm}
+
+I am writing this letter to inform you that I am resigning my position of <TITLE> at <COMPANY>, with my last date of employment being <DAY> the <DATE>.
+
+I would like to make my final weeks with <COMPANY> as productive as possible as well as provide any additional training on current and past projects as possible, so please let me know what I can do to help transition my responsibilities to others.
+
+I greatly appreciate all of the opportunities that <COMPANY> has provided me during my tenure.
+
+\end{newlfm}
+
+%%% ------------------------------------------------------------
+%%% END DOCUMENT
+%%% ------------------------------------------------------------
+\end{document}
