@@ -33,6 +33,19 @@ Subject={Resignation Letter}
 \widowpenalty=1000
 \clubpenalty=1000
 
+%%% The following code fixes an known issue with fancyhdr from TexLive 2017 onwards
+%%% Details on this fix can be found at the following url:
+%%% https://tex.stackexchange.com/questions/377454/undefined-control-sequence-error-on-fancyreset-fncyolh-and-fncyorh-when-u
+\usepackage{etoolbox}
+
+\makeatletter
+\patchcmd{\@zfancyhead}{\fancy@reset}{\f@nch@reset}{}{}
+\patchcmd{\@set@em@up}{\f@ncyolh}{\f@nch@olh}{}{}
+\patchcmd{\@set@em@up}{\f@ncyolh}{\f@nch@olh}{}{}
+\patchcmd{\@set@em@up}{\f@ncyorh}{\f@nch@orh}{}{}
+\makeatother
+%%% The following code fixes an known issue with fancyhdr from TexLive 2017 onwards
+
 
 %%% ------------------------------------------------------------
 %%% LETER MACROS
@@ -55,7 +68,7 @@ Subject={Resignation Letter}
 %\phonefrom{Phone Number}
 %\emailfrom{email@email.com}
 
-\greetto{Andy Farrall,}
+\greetto{PERSONS NAME,}
 \closeline{Sincerely,}
 
 %%% ------------------------------------------------------------
